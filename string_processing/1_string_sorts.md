@@ -70,7 +70,7 @@ The trace of LSD algorithm illustrated in the image below:
 
 ![](../assets/image2.png)Image 1: Trace of LSD
 
-The running time of LSD is **~7WN+3WR**and extra space proportional to **N+R**.
+The running time of LSD is **~7WN+3WR **and extra space proportional to **N+R**.
 
 ### Most-Significant-Digit \(MSD\) Radix Sorting {#most-significant-digit-msd-radix-sorting}
 
