@@ -14,103 +14,61 @@ The graphical implementation of constructing DFA of pattern _ABABC_ illustrate i
 
 The implementation of KMP algorithm in java will be like this:
 
+```
 import edu.princeton.cs.algs4.In;
-
 import edu.princeton.cs.algs4.StdIn;
-
 import edu.princeton.cs.algs4.StdOut;
 
 public class KMP
-
 {
+	private String pat;
+	private int[][] dfa;
 
-private String pat;
+	public KMP(String pat)
+	{  // Construct DFA from pattern
+		this.pat = pat;
+		int M = pat.length();
+		int R = 256;
+		dfa = new int[R][M];
+		dfa[pat.charAt(0)][0] = 1;
+		for (int X = 0, j = 1; j < M; j++) {
+			// Compute dfa[][]
+			for (int c = 0; c < R; c++)
+				dfa[c][j] = dfa[c][X];
+			dfa[pat.charAt(j)][j] = j+1;
+			X = dfa[pat.charAt(j)][X];
+		}
+	}
 
-private int[][] dfa;
+	public int search(String txt)
+	{  // Simulate operation of DFA on txt
+		int i, j, N = txt.length(), M = pat.length();
+		for (i = 0, j = 0; i<N && j<M; i++)
+			j = dfa[txt.charAt(i)][j];
+		if (j == M)	return i-M;  	// Found
+		else		return N; 		// Not found
+	}
 
-public KMP(String pat)
-
-{ // Construct DFA from pattern
-
-this.pat = pat;
-
-int M = pat.length();
-
-int R = 256;
-
-dfa = new int[R][M];
-
-dfa[pat.charAt(0)][0] = 1;
-
-for (int X = 0, j = 1; j &lt; M; j++) {
-
-// Compute dfa[][]
-
-for (int c = 0; c &lt; R; c++)
-
-dfa[c][j] = dfa[c][X];
-
-dfa[pat.charAt(j)][j] = j+1;
-
-X = dfa[pat.charAt(j)][X];
-
+	/**
+	 * Will print:
+	 * % java KMP AACAA AABRAACADABRAACAADABRA
+	 * text: AABRAACADABRAACAADABRA
+	 * pattern:          AACAA
+	 */
+	public static void main(String[] args)
+	{
+		String pat = args[0];
+		String txt = args[1];
+		KMP kmp = new KMP(pat);
+		StdOut.println("text:    " + txt);
+		int offset = kmp.search(txt);
+		StdOut.print("pattern: ");
+		for (int i = 0; i < offset; i++)
+			StdOut.print(" ");
+		StdOut.println(pat);
+	}
 }
-
-}
-
-public int search(String txt)
-
-{ // Simulate operation of DFA on txt
-
-int i, j, N = txt.length(), M = pat.length();
-
-for (i = 0, j = 0; i**Illegal HTML tag removed :**
-
-j = dfa[txt.charAt(i)][j];
-
-if (j == M)return i-M; // Found
-
-elsereturn N; // Not found
-
-}
-
-/**
-
-* Will print:
-
-* % java KMP AACAA AABRAACADABRAACAADABRA
-
-* text: AABRAACADABRAACAADABRA
-
-* pattern: AACAA
-
-*/
-
-public static void main(String[] args)
-
-{
-
-String pat = args[0];
-
-String txt = args[1];
-
-KMP kmp = new KMP(pat);
-
-StdOut.println(&quot;text: &quot; + txt);
-
-int offset = kmp.search(txt);
-
-StdOut.print(&quot;pattern: &quot;);
-
-for (int i = 0; i &lt; offset; i++)
-
-StdOut.print(&quot; &quot;);
-
-StdOut.println(pat);
-
-}
-
-}
+```
 
 Worst case processing time of KMP is **N+M**, since M time for preprocessing and N time for searching.
 
@@ -141,116 +99,67 @@ Obviously, we can do this in linear time by constructing an array to lookup whic
 Image 11: Right array example
 
 The implementation of Boyer-Moore algorithm in java will be like this:
-
+```
 import edu.princeton.cs.algs4.In;
-
 import edu.princeton.cs.algs4.StdIn;
-
 import edu.princeton.cs.algs4.StdOut;
 
 class BoyerMoore
-
 {
+	private int[] right;
+	private String pat;
 
-private int[] right;
+	BoyerMoore(String pat)
+	{  // Computer skip table
+		this.pat = pat;
+		int M = pat.length();
+		int R = 256;
+		right = new int[R];
+		for (int c=0; c<R; c++)
+			right[c] = -1;
+		for (int j=0; j<M; j++)
+			right[pat.charAt(j)] = j;
+	}
 
-private String pat;
+	public int search(String txt)
+	{  // Search for pattern in txt
+		int N = txt.length();
+		int M = pat.length();
+		int skip;
+		for (int i=0; i<=N-M; i+=skip) {
+			skip = 0;
+			for (int j=M-1; j>=0; j--) {
+				if (pat.charAt(j) != txt.charAt(i+j)) {
+					skip = j-right[txt.charAt(i+j)];
+					if (skip<1) skip = 1;
+					break;
+				}
+			}
+			if (skip == 0) return i;  // Found
+		}
+		return N;					  // Not found
+	}
 
-BoyerMoore(String pat)
-
-{ // Computer skip table
-
-this.pat = pat;
-
-int M = pat.length();
-
-int R = 256;
-
-right = new int[R];
-
-for (int c=0; c**Illegal HTML tag removed :**
-
-right[c] = -1;
-
-for (int j=0; j<m; j++)<="" p=""></m;>
-
-right[pat.charAt(j)] = j;
-
+	/**
+	 * Will print:
+	 * % java BoyerMoore AACAA AABRAACADABRAACAADABRA
+	 * text: AABRAACADABRAACAADABRA
+	 * pattern:          AACAA
+	 */
+	public static void main(String[] args)
+	{
+		String pat = args[0];
+		String txt = args[1];
+		BoyerMoore boyerMoore = new BoyerMoore(pat);
+		StdOut.println("text:    " + txt);
+		int offset = boyerMoore.search(txt);
+		StdOut.print("pattern: ");
+		for (int i = 0; i < offset; i++)
+			StdOut.print(" ");
+		StdOut.println(pat);
+	}
 }
-
-public int search(String txt)
-
-{ // Search for pattern in txt
-
-int N = txt.length();
-
-int M = pat.length();
-
-int skip;
-
-for (int i=0; i&lt;=n-m; i+=&quot;skip)&quot; {&lt;=&quot;&quot; p=&quot;&quot;&gt;
-
-skip = 0;
-
-for (int j=M-1; j&gt;=0; j--) {
-
-if (pat.charAt(j) != txt.charAt(i+j)) {
-
-skip = j-right[txt.charAt(i+j)];
-
-if (skip&lt;1) skip=&quot;1;&lt;/p&quot;&gt;
-
-break;
-
-}
-
-}
-
-if (skip == 0) return i; // Found
-
-}
-
-return N; // Not found
-
-}
-
-/**
-
-* Will print:
-
-* % java BoyerMoore AACAA AABRAACADABRAACAADABRA
-
-* text: AABRAACADABRAACAADABRA
-
-* pattern: AACAA
-
-*/
-
-public static void main(String[] args)
-
-{
-
-String pat = args[0];
-
-String txt = args[1];
-
-BoyerMoore boyerMoore = new BoyerMoore(pat);
-
-StdOut.println(&quot;text: &quot; + txt);
-
-int offset = boyerMoore.search(txt);
-
-StdOut.print(&quot;pattern: &quot;);
-
-for (int i = 0; i &lt; offset; i++)
-
-StdOut.print(&quot; &quot;);
-
-StdOut.println(pat);
-
-}
-
-}
+```
 
 The typical implementation of Boyer-Moore algorithm like code above will guarantee worst case running time to **NM**. Furthermore, a full implementation of Boyer-Moore will provide linear-time worst-case guarantee by implementing KMP-like table. If we look into Image 10, its like we can choose better skip value by implementing KMP-like array rather than simply decrement index of _j_.
 
