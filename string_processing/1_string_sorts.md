@@ -10,7 +10,26 @@ Before we discuss any string algorithms, we need to understand how to indexing s
 
 Intuitively, the idea of key-indexed is sort string by its key. That’s why we can utilized this method for complex string sort discussed later. Below, the implementation of key-indexed counting in java:
 
-int N = a.length;String[] aux = new String[N];int[] count = new int[R+1]; // R is Radix// Computer frequency countsfor (int i=0; i &lt; N; i++)// key() return sectioncount[a[i].key() + 1]++;// Transform counts to indiciesfor (int r = 0; r &lt; R; r++)count[r+1] += count[r];// Distribute the recordsfor (int i = 0; i &lt; N; i++)aux[count[a[i].key()]++] = a[i];// Copy backfor (int i = 0; i &lt; N; i++)a[i] = aux[i];
+```
+int N = a.length;
+
+String[] aux = new String[N];
+int[] count = new int[R+1];  // R is Radix
+
+// Computer frequency counts
+for (int i=0; i < N; i++)
+	// key() return section
+	count[a[i].key() + 1]++;
+// Transform counts to indicies
+for (int r = 0; r < R; r++)
+	count[r+1] += count[r];
+// Distribute the records
+for (int i = 0; i < N; i++)
+	aux[count[a[i].key()]++] = a[i];
+// Copy back
+for (int i = 0; i < N; i++)
+	a[i] = aux[i];
+```
 
 At first step, we used key+1 index in frequency counts to get the offset of each occurrences, not just count how many key we found. In the example above, the result of count array will be [0, 0, 3, 5, 6, 6]. The first and second index will always be zero.
 
@@ -20,7 +39,7 @@ At third step, we distributed each string based on its key that we have indexed 
 
 Last step is copying all sorted string in the auxiliary array back into original array of string.
 
-The running time of key-indexed counting is **8N+3****R****+1**which is proofed by N+R+1 for initializations, 2N for first step, 2R for second step, 3N for third step, and 2N for fourth step.
+The running time of key-indexed counting is **8N+3R+1**which is proofed by N+R+1 for initializations, 2N for first step, 2R for second step, 3N for third step, and 2N for fourth step.
 
 ### Least-Significant-Digit (LSD) Radix Sort {#least-significant-digit-lsd-radix-sort}
 
