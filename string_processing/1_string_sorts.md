@@ -39,7 +39,7 @@ At third step, we distributed each string based on its key that we have indexed 
 
 Last step is copying all sorted string in the auxiliary array back into original array of string.
 
-The running time of key-indexed counting is **8N+3R+1**which is proofed by N+R+1 for initializations, 2N for first step, 2R for second step, 3N for third step, and 2N for fourth step.
+The running time of key-indexed counting is **8N+3R+1 **which is proofed by N+R+1 for initializations, 2N for first step, 2R for second step, 3N for third step, and 2N for fourth step.
 
 ### Least-Significant-Digit \(LSD\) Radix Sort {#least-significant-digit-lsd-radix-sort}
 
