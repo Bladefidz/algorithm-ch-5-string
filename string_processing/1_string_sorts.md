@@ -47,7 +47,24 @@ The term least significant means we examines every character in the string from 
 
 LSD is quite simple because we can adapt the key-indexed counting method as we mentioned before. Here the implementation of LSD in java:
 
-int N = a.lengthint R = 256;String[] aux = new String[N];for (int d = W-1; d&gt;= 0; d--){ // W is fixed length of all stringsint[] count = new int[R+1];for (int i = 0; i &lt; N; i++)count[a[i].charAt(d) + 1]++;for (int r = 0; r &lt; R; r++)count[r+1] += count[r];for (int i = 0; i &lt; N; i++)aux[count[a[i].charAt(d)]++] = a[i];for (int i = 0; i &lt; N; i++)a[i] = aux[i];}
+```
+int N = a.length
+int R = 256;
+String[] aux = new String[N];
+
+for (int d = W-1; d>= 0; d--)
+{ // W is fixed length of all strings
+	int[] count = new int[R+1];
+	for (int i = 0; i < N; i++)
+		count[a[i].charAt(d) + 1]++;
+	for (int r = 0; r < R; r++)
+		count[r+1] += count[r];
+	for (int i = 0; i < N; i++)
+		aux[count[a[i].charAt(d)]++] = a[i];
+	for (int i = 0; i < N; i++)
+		a[i] = aux[i];
+}
+```
 
 The trace of LSD algorithm illustrated in the image below:
 
@@ -63,35 +80,41 @@ The key idea of MSD similar with quicksort, but instead used two or three partit
 
 Below the implementation of MSD in java:
 
-public class MSD {private static int R = 256; // radixprivate static final int M = 5; // cuttof that indicate small arrayprivate static String[] aux; // Auxiliary array for distributionprivate static int charAt(String s, int d) {// Return character encoding index, or -1 if outsite length of stringif (d &lt; s.length()) return s.chartAt(d); else return -1;}public static void sort(String[] a) {int N = a.length;aux = new String[N];sort(a, 0, N-1, 0);}private static void sort(String[] a, int lo, int hi, int d) {if (hi
+```
+public class MSD {
+	private static int R = 256;  // radix
+	private static final int M = 5;  // cuttof that indicate small array
+	private static String[] aux;  // Auxiliary array for distribution
 
-**Illegal HTML tag removed :**
-Insertion.sort(a, lo, hi, d); return;
+	private static int charAt(String s, int d) {
+		// Return character encoding index, or -1 if outsite length of string
+		if (d < s.length()) return s.chartAt(d); else return -1;
+	}
 
+	public static void sort(String[] a) {
+		int N = a.length;
+		aux = new String[N];
+		sort(a, 0, N-1, 0);
+	}
+
+	private static void sort(String[] a, int lo, int hi, int d) {
+		if (hi <= lo + M) {
+			Insertion.sort(a, lo, hi, d); return;
+		}
+		int[] count = new int[R+2];
+		for (int i = lo; i <= hi; i++)
+			count[charAt(a[i], d) + 1]++;
+		for (int r = 0; r < R+1; r++)
+			count[r+1] += count[r];
+		for (int i = lo; i <= hi; i++)
+			aux[count[charAt(a[i], d) + 1]++] = a[i];
+		for (int i = lo; i <= hi; i++)
+			a[i] = aux[i-lo];
+		for (int r = 0; r < R; r++)
+			sort(a, lo + count[r], lo + count[r+1] – 1, d+1);
+	}
 }
-
-int[] count = new int[R+2];
-
-for (int i = lo; i &lt;= hi;=&quot;&quot; i++)<br="">
-count[charAt(a[i], d) + 1]++;
-
-</br="">
-
-for (int r = 0; r &lt; R+1; r++)count[r+1] += count[r];for (int i = lo; i
-
-**Illegal HTML tag removed :**
-aux[count[charAt(a[i], d) + 1]++] = a[i];
-
-for (int i = lo; i &lt;= hi;=&quot;&quot; i++)<br="">
-a[i] = aux[i-lo];
-
-for (int r = 0; r &lt; R; r++)
-
-sort(a, lo + count[r], lo + count[r+1] – 1, d+1);
-
-}</br="">
-
-}
+```
 
 Image below illustrate MSD on small set of string which has R=15 (LOWERCASE encoding):
 
