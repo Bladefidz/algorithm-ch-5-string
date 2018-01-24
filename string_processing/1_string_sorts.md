@@ -132,36 +132,36 @@ Below the implementation of three-way string quicksort in java:
 
 ```
 public class Quick3string {
-	private static int charAt(String s, int d) {
-		// Return character encoding index, or -1 if outsite length of string
-		if (d < s.length()) return s.chartAt(d); else return -1;
-	}
-	
-	public static void sort(String[] a) {
-		sort(a, 0, a.length -1, 0);
-	}
+    private static int charAt(String s, int d) {
+        // Return character encoding index, or -1 if outsite length of string
+        if (d < s.length()) return s.chartAt(d); else return -1;
+    }
 
-	private static void sort(String[] a, int lo, int hi, int d) {
-		if (hi <= lo) return;
+    public static void sort(String[] a) {
+        sort(a, 0, a.length -1, 0);
+    }
 
-		int lt = lo, gt = hi;
-		int v = charAt(a[lo], d);
-		int i = lo + 1;
-		while (i <= gt) {
-			int t = charAt(a[i], d);
-			if 		(t < v) exch(a, lt++, i++);
-			else if	(t < v) exch(a, i, gt--);
-			else			  i++;
-		}
+    private static void sort(String[] a, int lo, int hi, int d) {
+        if (hi <= lo) return;
 
-		sort(a, lo, lt-1, d);
-		if (v >= 0) sort(a, lt, gt, d+1);
-		sort(a, gt+1, hi, d);
-	}
+        int lt = lo, gt = hi;
+        int v = charAt(a[lo], d);
+        int i = lo + 1;
+        while (i <= gt) {
+            int t = charAt(a[i], d);
+            if         (t < v) exch(a, lt++, i++);
+            else if    (t < v) exch(a, i, gt--);
+            else              i++;
+        }
+
+        sort(a, lo, lt-1, d);
+        if (v >= 0) sort(a, lt, gt, d+1);
+        sort(a, gt+1, hi, d);
+    }
 }
 ```
 
 Image below illustrate trace of three-way quicksort in small set of strings without cutoff:![](../assets/image4.png)Image 3: Trace of 3-way string quicksort
 
-Since in the core three-way quicksort implemented normal quicksort extensively, the running time of three-way quicksort s about **~2NlnN**on the average.
+Since in the core three-way quicksort implemented normal quicksort extensively, the running time of three-way quicksort s about **~2NlnN **on the average.
 
