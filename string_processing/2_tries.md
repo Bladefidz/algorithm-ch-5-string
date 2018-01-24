@@ -6,9 +6,9 @@ Too avoid confusion with term ‘tree’, a term trie came from word re\_**trie*
 
 Image 4 illustrated the anatomy of a trie correspond to small set of words. To reproduce a trie construction illustrated in image 4, we need to following rules:
 
-1. ![](../assets/image5.png)Image 4: Anatomy of a trie
+![](../assets/image5.png)Image 4: Anatomy of a trie
 
-   A root is a node with null values.
+1. A root is a node with null values.
 
 2. All leafs are nodes that do not have child or followed by null link.
 
@@ -18,7 +18,7 @@ Image 4 illustrated the anatomy of a trie correspond to small set of words. To r
 
 ### R-Way Trie {#r-way-trie}
 
-The idea of R-way trie is we take R possible value to create each parent node, so we can satisfy randomness of input string cases. For example, if we need to indexing any ASCII based words and all the words are distributed uniformly, then at least we need to satisfy \_L\_\_R\_possible combinations, where L is average length of string. Image 5 illustrated the construction of R-Way trie for 256 ASCII characters of word sea, shells, and she.
+The idea of R-way trie is we take R possible value to create each parent node, so we can satisfy randomness of input string cases. For example, if we need to indexing any ASCII based words and all the words are distributed uniformly, then at least we need to satisfy $$L^R$$ possible combinations, where L is average length of string. Image 5 illustrated the construction of R-Way trie for 256 ASCII characters of word sea, shells, and she.
 
 ![](../assets/image6.png)Image 5: R-Way tries construction
 
@@ -27,43 +27,43 @@ Below, the implementation of R-way tries in Java:
 ```
 public class TrieST<Value>
 {
-	private static int R = 256;
-	private Node root;
+    private static int R = 256;
+    private Node root;
 
-	private static class Node
-	{
-		private Object val;
-		private Node[] next = new Node[R];
-	}
+    private static class Node
+    {
+        private Object val;
+        private Node[] next = new Node[R];
+    }
 
-	public Value get(String key)
-	{
-		Node x = get(root, key, 0);
-		if (x == null) return null;
-		return (Value) x.val;
-	}
+    public Value get(String key)
+    {
+        Node x = get(root, key, 0);
+        if (x == null) return null;
+        return (Value) x.val;
+    }
 
-	private Node get(Node x, String key, int d)
-	{
-		if (x == Null) return null;
-		if (d == key.length()) return x;
-		char c = key.chartAt(d);
-		return get(x.next[c], key, d+1);
-	}
+    private Node get(Node x, String key, int d)
+    {
+        if (x == Null) return null;
+        if (d == key.length()) return x;
+        char c = key.chartAt(d);
+        return get(x.next[c], key, d+1);
+    }
 
-	public void put(String key, Value val)
-	{
-		root = put(root, key, val, 0);
-	}
+    public void put(String key, Value val)
+    {
+        root = put(root, key, val, 0);
+    }
 
-	private Node put(Node x, String key, Value val, int d)
-	{
-		if (x == null) x == new Node();
-		if (d == key.length()) { x.val = val; return x; }
-		char c = key.chartAt(d);
-		x.next[c] = put(x.next[s], key, val, d+1);
-		return x;
-	}
+    private Node put(Node x, String key, Value val, int d)
+    {
+        if (x == null) x == new Node();
+        if (d == key.length()) { x.val = val; return x; }
+        char c = key.chartAt(d);
+        x.next[c] = put(x.next[s], key, val, d+1);
+        return x;
+    }
 }
 ```
 
@@ -84,42 +84,42 @@ Below the implementation of TST in java:
 ```
 public class TST<Value>
 {
-	private Node root;
-	
-	private class Node
-	{
-		char c;
-		Node left, mid, right;
-		Value val;
-	}
+    private Node root;
 
-	public Value get(String key);
+    private class Node
+    {
+        char c;
+        Node left, mid, right;
+        Value val;
+    }
 
-	private Node get(Node x, String key, int d)
-	{
-		if (x == null) return null;
-		chat c – key.chartAt(d);
-		if 	  (c < x.c) return get(x.left, key, d);
-		else if (c > x.c) return get(x.right, key, d);
-		else if (d < key.length() - 1) return get(x.mid, key, d+1)
-		else return x;
-	}
+    public Value get(String key);
 
-	public void put(String key, Value val)
-	{
-		root = put(root, key, val, 0);
-	}
+    private Node get(Node x, String key, int d)
+    {
+        if (x == null) return null;
+        chat c – key.chartAt(d);
+        if       (c < x.c) return get(x.left, key, d);
+        else if (c > x.c) return get(x.right, key, d);
+        else if (d < key.length() - 1) return get(x.mid, key, d+1)
+        else return x;
+    }
 
-	private Node put(Node x, String key, Value val, int d)
-	{
-		char c = key.charAt(d);
-		if (x == null) { x = new Node(); x.c = c; }
-		if 	  (c < x.c) x.left = put(x.left, key, val, d);
-		else if (c > x.c) x.right = put(x.roght, key, val, d);
-		else if (d < key.length() - 1) x.mid = put(x.mid, key, val, d+1);
-		else x.val = val;
-		return x;
-	}
+    public void put(String key, Value val)
+    {
+        root = put(root, key, val, 0);
+    }
+
+    private Node put(Node x, String key, Value val, int d)
+    {
+        char c = key.charAt(d);
+        if (x == null) { x = new Node(); x.c = c; }
+        if       (c < x.c) x.left = put(x.left, key, val, d);
+        else if (c > x.c) x.right = put(x.roght, key, val, d);
+        else if (d < key.length() - 1) x.mid = put(x.mid, key, val, d+1);
+        else x.val = val;
+        return x;
+    }
 }
 ```
 
