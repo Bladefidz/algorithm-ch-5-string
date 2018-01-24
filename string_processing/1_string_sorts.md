@@ -129,38 +129,6 @@ The running time of MSD is between **8N+3R**and **~7wN+3WR**, where w is the ave
 As mentioned before, MSD could be slow for the case of huge encoding sizes, such as UNICODE which is has 65536 mapped encodes. To solve that problem, we need to remove need of auxiliary array. Three-way string quicksort will do that, by maintenance three-way partitioning code: first partition less than second partition and third partition larger than second partition. We can say that this algorithm is a hybrid that combine normal quicksort and MSD.
 
 Below the implementation of three-way string quicksort in java:
-
-public class Quick3string {private static int charAt(String s, int d) {// Return character encoding index, or -1 if outsite length of stringif (d &lt; s.length()) return s.chartAt(d); else return -1;}public static void sort(String[] a) {sort(a, 0, a.length -1, 0);}private static void sort(String[] a, int lo, int hi, int d) {if (hi
-
-**Illegal HTML tag removed :**
-
-int lt = lo, gt = hi;
-
-int v = charAt(a[lo], d);
-
-int i = lo + 1;
-
-while (i &lt;= gt)=&quot;&quot; {<br="">
-int t = charAt(a[i], d);
-
-if (t &lt; v) exch(a, lt++, i++);
-
-else if(t &lt; v) exch(a, i, gt--);
-
-else i++;
-
-}
-
-sort(a, lo, lt-1, d);
-
-if (v &gt;= 0) sort(a, lt, gt, d+1);
-
-sort(a, gt+1, hi, d);
-
-}
-
-}</br="">
-
 Image below illustrate trace of three-way quicksort in small set of strings without cutoff:
 
 ![](../assets/image4.png)Image 3: Trace of 3-way string quicksort
