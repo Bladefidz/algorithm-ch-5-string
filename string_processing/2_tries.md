@@ -93,7 +93,12 @@ public class TST<Value>
         Value val;
     }
 
-    public Value get(String key);
+    public Value get(String key)
+    {
+        Node<Value> x = get(root, key, 0);
+        if (x == null) return null;
+        return x.val;
+    }
 
     private Node get(Node x, String key, int d)
     {
