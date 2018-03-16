@@ -6,7 +6,8 @@ Too avoid confusion with term ‘tree’, a term trie came from word re\_**trie*
 
 Image 4 illustrated the anatomy of a trie correspond to small set of words. To reproduce a trie construction illustrated in image 4, we need to following rules:
 
-![](../assets/image5.png)Image 4: Anatomy of a trie
+![](../assets/image5.png)  
+Image 4: Anatomy of a trie
 
 1. A root is a node with null values.
 
@@ -71,13 +72,15 @@ Since each level of trie consisted by nodes taken from set of array with R-lengt
 
 ### Ternary Search Tries \(TST\) {#ternary-search-tries-tst}
 
-![](../assets/image7.png)Image 6: TST constuction
+![](../assets/image7.png)  
+Image 6: TST constuction
 
 As mentioned before, the implementation of R-way tries required huge of space. In the practical point of view, the R-way tries is not suitable. To be helped with practical cases of bug data, we need to understand that the **typical input is not random**. In the case of non-randomness string, we knew that there will be occurred such any patterns and repetition. Thus, by knowing this fact, it is possible to reduce R-way tries into K-way tries which is value of K should be very small as possible.
 
 Based on its name, Ternary Search Tries \(TST\) is reduced version of R-way tries that has three links at most. Looking the construction of TST which illustrated in image 6, we realize that TST required different representation. Since we reduced the possibility of word occurrences, **each character appear explecitly** in nodes, so we only need to examines exactly 1/3 probability despite the length of its encoding. The search operation illustrated in image 7.
 
-![](../assets/image8.png)Image 7: Search on TST
+![](../assets/image8.png)  
+Image 7: Search on TST
 
 Below the implementation of TST in java:
 

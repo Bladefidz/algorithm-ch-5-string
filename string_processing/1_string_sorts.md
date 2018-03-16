@@ -68,7 +68,8 @@ for (int d = W-1; d>= 0; d--)
 
 The trace of LSD algorithm illustrated in the image below:
 
-![](../assets/image2.png)Image 1: Trace of LSD
+![](../assets/image2.png)  
+Image 1: Trace of LSD
 
 The running time of LSD is **~7WN+3WR **and extra space proportional to **N+R**.
 
@@ -122,7 +123,7 @@ Image below illustrate MSD on small set of string which has R=15 \(LOWERCASE enc
 
 We maintenance cutoff value to identify small array, so we can improve running time of sorting in MSD by implementing insertion sort for small array. Another aspect that we should concern about is radix range in MSD. It is okay for standard ASCII which has R=256, but for UNICODE which has R=65536, it is not good.
 
-The running time of MSD is between **8N+3R**and **~7wN+3WR**, where w is the average string length.
+The running time of MSD is between **8N+3R ** and **~7wN+3WR**, where w is the average string length.
 
 ### Three-Way String Radix Quicksort {#three-way-string-radix-quicksort}
 
